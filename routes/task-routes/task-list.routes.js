@@ -1,61 +1,60 @@
 const express = require("express");
 const router = express.Router();
-const TaskList = require('../../models/TaskList.model');
+const TaskList = require("../../models/TaskList.model");
 
 // CREATE
 router.post("/", (req, res) => {
-  TaskList.create(req.body)
-    .then(taskList => {
-      res.json({ success: true, taskList }); // Send the created task list as a JSON response
-    })
-    .catch(error => {
-      res.json({ success: false, error }); // Send an error JSON response
-    });
+	TaskList.create(req.body)
+		.then((taskList) => {
+			res.json({ success: true, taskList });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
 });
 
-// GET ALL
+// READ
 router.get("/", (req, res) => {
-  TaskList.find()
-    .populate('tasks')
-    .then(taskLists => {
-      res.json({ success: true, taskLists }); // Send the task lists as a JSON response
-    })
-    .catch(error => {
-      res.json({ success: false, error }); // Send an error JSON response
-    });
+	TaskList.find()
+		.populate("tasks")
+		.then((taskLists) => {
+			res.json({ success: true, taskLists });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
 });
 
-// GET BY ID
+// READ
 router.get("/:taskListId", (req, res) => {
-  TaskList.findById(req.params.taskListId)
-    .then(taskList => {
-      res.json({ success: true, taskList }); // Send the task list as a JSON response
-    })
-    .catch(error => {
-      res.json({ success: false, error }); // Send an error JSON response
-    });
+	TaskList.findById(req.params.taskListId)
+		.then((taskList) => {
+			res.json({ success: true, taskList });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
 });
 
-// UPDATE BY ID
+// UPDATE
 router.put("/:taskListId", (req, res) => {
-  TaskList.findByIdAndUpdate(req.params.taskListId, req.body, { new: true })
-    .then(taskList => {
-      res.json({ success: true, taskList }); // Send the updated task list as a JSON response
-    })
-    .catch(error => {
-      res.json({ success: false, error }); // Send an error JSON response
-    });
+	TaskList.findByIdAndUpdate(req.params.taskListId, req.body, { new: true })
+		.then((taskList) => {
+			res.json({ success: true, taskList });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
 });
 
-// DELETE BY ID
+// DELETE
 router.delete("/:taskListId", (req, res) => {
-  TaskList.findByIdAndRemove(req.params.taskListId)
-    .then(() => {
-      res.json({ success: true, message: 'Successfully removed task list' }); // Send a success message as a JSON response
-    })
-    .catch(error => {
-      res.json({ success: false, error }); // Send an error JSON response
-    });
+	TaskList.findByIdAndRemove(req.params.taskListId)
+		.then(() => {
+			res.json({ success: true, message: "Successfully removed task" });
+		})
+		.catch((err) => {
+			res.json({ success: false, error: err });
+		});
 });
-
 module.exports = router;
